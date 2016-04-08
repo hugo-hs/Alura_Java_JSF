@@ -19,6 +19,10 @@ public class LivroBean {
 
 	private Livro livro = new Livro();
 
+	public void setLivro(Livro livro) {
+		this.livro = livro;
+	}
+
 	private Integer autorId;
 	
 	public List<Livro> getLivros() {
@@ -59,7 +63,11 @@ public class LivroBean {
             return;
 		}
 
-		new DAO<Livro>(Livro.class).adiciona(this.livro);
+	    if (this.livro.getId() == null) {
+	        new DAO<Livro>(Livro.class).adiciona(this.livro);        
+	    } else {
+	        new DAO<Livro>(Livro.class).atualiza(this.livro);
+	    }
 		
 		this.livro = new Livro();
 	}
@@ -76,4 +84,17 @@ public class LivroBean {
 		
 	}
 
+	public void remover(Livro livro) {
+	    System.out.println("Removendo livro " + livro.getTitulo());
+	    new DAO<Livro>(Livro.class).remove(livro);
+	}
+	
+	public void carregar(Livro livro) {
+	    System.out.println("Carregando livro " + livro.getTitulo());
+	    this.livro = livro;
+	}
+	
+	public void removerAutorDoLivro(Autor autor) {
+	    this.livro.removeAutor(autor);
+	}
 }
