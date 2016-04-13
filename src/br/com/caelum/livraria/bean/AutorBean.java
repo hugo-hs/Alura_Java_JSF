@@ -19,4 +19,9 @@ public class AutorBean {
 
 		new DAO<Autor>(Autor.class).adiciona(this.autor);
 	}
+	
+	public void carregaPelaId() {
+	    Integer id = this.autor.getId();
+	    this.autor = new DAO<Autor>(Autor.class).buscaPorId(id);
+	}
 }
