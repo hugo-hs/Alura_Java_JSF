@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"> <!-- Adicionado para usar template -->
 
 	<ui:composition template="_template.xhtml">
@@ -13,25 +14,48 @@
 	</f:metadata>
 	
 	<ui:define name="titulo">
-		Novo Autor
+		<p:outputPanel>Novo Autor</p:outputPanel>
 	</ui:define>
 	
 	<ui:define name="conteudo">
-		<h:form>
-			<fieldset>
+		<h:form id="formDados">
+		
+			<p:messages id="messageEmail"/>
+			<p:fieldset>
 				<legend>Dados do Autor</legend>
-				<h:panelGrid columns="2">
-					<h:outputLabel value="Nome:" for="nome" />
-					<h:inputText id="nome" value="#{autorBean.autor.nome}" />
+				<p:panelGrid columns="2" id="formTabelaAutors">
+					<p:outputLabel value="Nome:" for="nome" />
+					<p:inputText id="nome" value="#{autorBean.autor.nome}" />
 
-					<h:outputLabel value="Email:" for="email" />
-					<h:inputText value="#{autorBean.autor.email}" id="email">
-	      				<f:passThroughAttribute name="type" value="email" />
-					</h:inputText>
+					<p:outputLabel value="Email:" for="email" />
+						<p:inputText id="email" value="#{autorBean.autor.email}" required="true">
+						    <f:attribute name="type" value="email" />
+						    <f:passThroughAttribute name="placeholder" value="Email do autor" />
+						    <f:validateRegex pattern=".+@.+" />
+						    <f:ajax event="blur" render="messageEmail" />
+						</p:inputText>
 
-					<h:commandButton value="Gravar" action="#{autorBean.gravar}" />
-				</h:panelGrid>
-			</fieldset>
+					<p:commandButton value="Gravar" action="#{autorBean.gravar}" process="@form" update="@form :formAutores"/>
+				</p:panelGrid>
+				
+			</p:fieldset>
+		</h:form>
+		
+		<h:form id="formAutores">
+		
+			<p:dataList value="#{autorBean.autores}" var="autor" type="definition">
+				<f:facet name="header">
+					Autores
+				 </f:facet>
+				 
+				 <p:commandButton icon="fa fa-fw fa-edit"  update="formDados:formTabelaAutors">
+		           <f:setPropertyActionListener value="#{autor}" target="#{autorBean.autor}" />
+		       	</p:commandButton>
+				 
+				#{autor.nome}, #{autor.email}
+				<p:commandLink styleClass="ui-icon ui-icon-trash" style="float:left;margin-right:10px" action="#{autorBean.remover(autor)}" update="@form" process="@this"/>
+				
+			</p:dataList>
 		</h:form>
 	</ui:define>
 	
