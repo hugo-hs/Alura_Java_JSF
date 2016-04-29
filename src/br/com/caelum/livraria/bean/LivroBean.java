@@ -1,6 +1,7 @@
 package br.com.caelum.livraria.bean;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +19,8 @@ import br.com.caelum.livraria.modelo.Livro;
 public class LivroBean {
 
 	private Livro livro = new Livro();
+	
+	private List<Livro> livros;
 
 	public void setLivro(Livro livro) {
 		this.livro = livro;
@@ -26,7 +29,13 @@ public class LivroBean {
 	private Integer autorId;
 	
 	public List<Livro> getLivros() {
-		  return new DAO<Livro>(Livro.class).listaTodos();
+		
+		DAO<Livro> livroDAO = new DAO<Livro>(Livro.class);
+		
+		if(this.livros == null)
+		  this.livros = livroDAO.listaTodos();
+		
+		return livros;
 	}
 	
 	public List<Autor> getAutoresDoLivro() {
@@ -102,4 +111,35 @@ public class LivroBean {
         Integer id = this.livro.getId();
         this.livro = new DAO<Livro>(Livro.class).buscaPorId(id);
     }
+	public boolean precoEhMenor(Object valorColuna, Object filtroDigitado, Locale locale) { // java.util.Locale
+
+        //tirando espaços do filtro
+        String textoDigitado = (filtroDigitado == null) ? null : filtroDigitado.toString().trim();
+
+        System.out.println("Filtrando pelo " + textoDigitado + ", Valor do elemento: " + valorColuna);
+
+        // o filtro é nulo ou vazio?
+        if (textoDigitado == null || textoDigitado.equals("")) {
+            return true;
+        }
+
+        // elemento da tabela é nulo?
+        if (valorColuna == null) {
+            return false;
+        }
+
+        try {
+            // fazendo o parsing do filtro para converter para Double
+            Double precoDigitado = Double.valueOf(textoDigitado);
+            Double precoColuna = (Double) valorColuna;
+
+            // comparando os valores, compareTo devolve um valor negativo se o value é menor do que o filtro
+            return precoColuna.compareTo(precoDigitado) < 0;
+
+        } catch (NumberFormatException e) {
+
+            // usuario nao digitou um numero
+            return false;
+        }
+}
 }

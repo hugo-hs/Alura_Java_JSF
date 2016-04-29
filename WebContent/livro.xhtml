@@ -75,23 +75,24 @@
 			<h:form id="formTabelaLivros">
 				<p:dataTable id="tabelaLivros" value="#{livroBean.livros}" var="livro">
 					
+					
 				    <f:facet name="header">
 			            Livros
 			        </f:facet>
 				
-					 <p:column headerText="Título">
+					 <p:column headerText="Título" sortBy="#{livro.titulo}" filterBy="#{livro.titulo}" filterMatchMode="startsWith">
 					    <h:outputText value="#{livro.titulo}" />
 					  </p:column>
 					
-					  <p:column headerText="ISBN">
+					  <p:column headerText="ISBN" sortBy="#{livro.isbn}" filterBy="#{livro.isbn}" filterMatchMode="contains">
 					    <h:outputText value="#{livro.isbn}" />
 					  </p:column>
 					
-					  <p:column headerText="Preço">
+					  <p:column headerText="Preço" sortBy="#{livro.preco}" filterBy="#{livro.preco}" filterFunction="#{livroBean.precoEhMenor}">
 					    <h:outputText value="#{livro.preco}" />
 					  </p:column>
 					
-					  <p:column headerText="Data">
+					  <p:column headerText="Data" filterBy="#{livro.dataLancamento.time}" filterMatchMode="contains">
 					    <h:outputText value="#{livro.dataLancamento.time}">	
 					    	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
 					    </h:outputText>
