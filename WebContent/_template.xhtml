@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <!-- Adicionado para usar template -->
 
@@ -9,15 +10,30 @@
 <h:body>
 
 	<div id="cabecalho">
+	
+		<p:growl id="grow" showDetail="true" autoUpdate="true" />
 
 		<h:graphicImage library="img" name="logo.png" />
 
-		<h:form rendered="#{usuarioLogado != null}">
-			<h:commandLink value="Logout" action="#{loginBean.deslogar}" />
-		</h:form>
-		
 		<p><h:outputText value="#{sessionScope['usuarioLogado'].email}" /></p>
 		<h1><ui:insert name="titulo"></ui:insert></h1>
+		
+		<h:form rendered="#{usuarioLogado != null}">
+		  <p:menuButton value="Menu">
+		    <p:menuitem value="Livros" action="livro?faces-redirect=true"  icon="fa fa-fw fa-edit"/>
+		    <p:menuitem value="Autores" action="autor?faces-redirect=true"  icon="fa fa-fw fa-sign-out"/>
+		    <p:separator />
+		    <p:menuitem value="Logout" action="#{loginBean.deslogar}"  />
+		  </p:menuButton>
+		</h:form>
+		
+		<h:form rendered="#{usuarioLogado != null}">
+		    <p:themeSwitcher id="basic" style="width:165px" value="#{temaBean.tema}">
+			    <f:selectItem itemLabel="Choose Theme" itemValue="" />
+			    <f:selectItems value="#{temaBean.temas}" var="tema" itemLabel="#{tema}" itemValue="#{tema}" />
+			    <f:ajax />
+			</p:themeSwitcher>
+		</h:form>
 	</div>
 
 	<div id="conteudo">
