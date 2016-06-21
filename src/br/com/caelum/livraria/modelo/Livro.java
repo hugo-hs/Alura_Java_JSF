@@ -22,6 +22,7 @@ public class Livro {
 	private String titulo;
 	private String isbn;
 	private double preco;
+	private String genero;
 	
 	@Temporal(TemporalType.DATE)
 	private Calendar dataLancamento = Calendar.getInstance();
@@ -82,6 +83,14 @@ public class Livro {
 
 	public void setDataLancamento(Calendar dataLancamento) {
 		this.dataLancamento = dataLancamento;
+	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 
 }

@@ -1,5 +1,6 @@
 package br.com.caelum.livraria.bean;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,6 +14,7 @@ import javax.faces.validator.ValidatorException;
 import br.com.caelum.livraria.dao.DAO;
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
+import br.com.caelum.livraria.modelo.LivroDataModel;
 
 @ManagedBean
 @ViewScoped
@@ -21,6 +23,10 @@ public class LivroBean {
 	private Livro livro = new Livro();
 	
 	private List<Livro> livros;
+	
+	private LivroDataModel livroDataModel = new LivroDataModel();
+	
+	private List<String> generos = Arrays.asList("Romance", "Drama", "Ação");
 
 	public void setLivro(Livro livro) {
 		this.livro = livro;
@@ -142,4 +148,20 @@ public class LivroBean {
             return false;
         }
 }
+
+	public LivroDataModel getLivroDataModel() {
+		return livroDataModel;
+	}
+
+	public void setLivroDataModel(LivroDataModel livroDataModel) {
+		this.livroDataModel = livroDataModel;
+	}
+
+	public List<String> getGeneros() {
+		return generos;
+	}
+
+	public void setGeneros(List<String> generos) {
+		this.generos = generos;
+	}
 }
