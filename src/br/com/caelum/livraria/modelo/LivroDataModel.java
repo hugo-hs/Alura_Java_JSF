@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.primefaces.model.LazyDataModel;
@@ -17,7 +18,8 @@ public class LivroDataModel extends LazyDataModel<Livro> implements Serializable
 	@Inject
 	private LivroDao livroDao;
 	
-	public LivroDataModel(){
+	@PostConstruct
+	void init(){
 		super.setRowCount(livroDao.quantidadeDeElementos());
 	}
 	

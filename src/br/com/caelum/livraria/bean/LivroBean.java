@@ -29,7 +29,8 @@ public class LivroBean implements Serializable{
 	
 	private List<Livro> livros;
 	
-	private LivroDataModel livroDataModel = new LivroDataModel();
+	@Inject
+	private LivroDataModel livroDataModel;
 	
 	private List<String> generos = Arrays.asList("Romance", "Drama", "Ação");
 	
