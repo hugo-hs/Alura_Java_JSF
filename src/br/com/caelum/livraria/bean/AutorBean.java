@@ -8,8 +8,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.caelum.livraria.dao.AutorDao;
-import br.com.caelum.livraria.lx.Transacional;
 import br.com.caelum.livraria.modelo.Autor;
+import br.com.caelum.livraria.tx.Log;
+import br.com.caelum.livraria.tx.Transacional;
 
 @Named
 @ViewScoped
@@ -39,6 +40,7 @@ public class AutorBean implements Serializable{
 	    this.autor = this.dao.buscaPorId(id);
 	}
 	
+	@Log
 	public List<Autor> getAutores(){
 		return this.dao.listaTodos();
 	}
