@@ -3,24 +3,29 @@ package br.com.caelum.livraria.bean;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.caelum.livraria.dao.UsuarioDao;
 import br.com.caelum.livraria.modelo.Usuario;
 
+@SuppressWarnings("serial")
 @Named
 @ViewScoped
 public class LoginBean  implements Serializable{
 
-	private static final long serialVersionUID = 1L;
-
 	private Usuario usuario = new Usuario();
     
+	@Inject
+	private UsuarioDao dao;
+	
+	@Inject
+	private FacesContext context;
+	
     public String deslogar(){
     	
-    	FacesContext context = FacesContext.getCurrentInstance();
     	context.getExternalContext().getSessionMap().remove("usuarioLogado");
     	
     	return "login?faces-redirect=true";
@@ -30,8 +35,7 @@ public class LoginBean  implements Serializable{
         System.out.println("Fazendo login do usuário "
                 + this.usuario.getEmail());
 
-        FacesContext context = FacesContext.getCurrentInstance();
-        boolean existe = new UsuarioDao().existe(this.usuario);
+        boolean existe = dao.existe(this.usuario);
 
         if (existe) {
         	

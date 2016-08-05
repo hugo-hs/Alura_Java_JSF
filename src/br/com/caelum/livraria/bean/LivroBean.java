@@ -18,7 +18,6 @@ import br.com.caelum.livraria.dao.LivroDao;
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
 import br.com.caelum.livraria.modelo.LivroDataModel;
-import br.com.caelum.livraria.tx.Log;
 import br.com.caelum.livraria.tx.Transacional;
 
 @Named
